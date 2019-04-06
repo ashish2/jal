@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import style
 import sys
+import imp
+from argparse import ArgumentParser
 
 style.use('ggplot')
 
@@ -72,19 +74,14 @@ class Jal(object):
         sbb = self.df[self.df.content == Jal.SOAP][Jal.BB]
         print(sad.corr(sbb))
 
-#j = Jal()
-#j.soap()
-#j.oil()
-#j.other()
-#j.soapcorr()
-
-import imp
-from argparse import ArgumentParser
 
 
 def initJal(datafile):
     j = Jal(datafile=datafile)
     j.soap()
+    j.oil()
+    j.other()
+    #j.soapcorr()
 
 
 def main():
