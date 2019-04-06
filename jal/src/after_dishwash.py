@@ -14,8 +14,8 @@ class Jal(object):
     AD = "afterDishwash"
     BB = "beforeBath"
 
-    def __init__(self, *args, **kwargs):
-        self.df = pd.read_csv(Jal.datafile)
+    def __init__(self, datafile=datafile, *args, **kwargs):
+        self.df = pd.read_csv(datafile)
 
     
     def soap(self):
@@ -28,6 +28,8 @@ class Jal(object):
         sbb = self.df[self.df.content == Jal.SOAP][Jal.BB]
         xlab = Jal.SOAP + " " + Jal.AD
         ylab = Jal.SOAP + " " + Jal.BB
+        sad.name = str(xlab)
+        sbb.name = ylab
         x = sad.plot(label=xlab)
         y = sbb.plot(label=ylab)
         xlabel = "Percentage of Soap content in water After Dishwash and Before Bath"
@@ -70,9 +72,34 @@ class Jal(object):
         sbb = self.df[self.df.content == Jal.SOAP][Jal.BB]
         print(sad.corr(sbb))
 
-j = Jal()
-j.soap()
+#j = Jal()
+#j.soap()
 #j.oil()
 #j.other()
 #j.soapcorr()
+
+import imp
+from argparse import ArgumentParser
+
+
+def initJal(datafile):
+    j = Jal(datafile=datafile)
+    j.soap()
+
+
+def main():
+    if __name__ == "__main__":
+        parser = ArgumentParser()
+        parser.add_argument('-f', '--file', 
+                type=str, 
+                help="Path of data file",
+                required=True)
+        args = parser.parse_args()
+        if args.file:
+            path = args.file
+            #ff = imp.load_source(f, path)
+
+            initJal(path)
+
+main()
 
